@@ -48,11 +48,11 @@ fi
 
 echo -e "${PURPLE}"
 cat << "EOF"
- ______ _     _       _______ _          _   
-|  ____(_)   | |     |  _____(_)        | |  
-| |__   _ ___| |__   | |__    _ _ __ ___| |_ 
+ ______ _     _       _______ _          _
+|  ____(_)   | |     |  _____(_)        | |
+| |__   _ ___| |__   | |__    _ _ __ ___| |_
 |  __| | / __| '_ \  |  __|  | | '__/ __| __|
-| |    | \__ \ | | | | |     | | |  \__ \ |_ 
+| |    | \__ \ | | | | |     | | |  \__ \ |_
 |_|    |_|___/_| |_| |_|     |_|_|  |___/\__|
 
 🐟 Gökhan Arkan's Fish-First Development Environment
@@ -83,7 +83,7 @@ fi
 if ! command -v brew &> /dev/null; then
     print_step "🍺 Installing Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    
+
     # Add Homebrew to PATH for Apple Silicon Macs
     if [[ -f "/opt/homebrew/bin/brew" ]]; then
         echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
@@ -172,12 +172,12 @@ print_step "🔗 Creating symlinks for configuration files..."
 backup_and_link() {
     local source="$DOTFILES_DIR/$1"
     local target="$HOME/$2"
-    
+
     if [ -f "$target" ] || [ -L "$target" ]; then
         print_warning "Backing up existing $target to $target.backup"
         mv "$target" "$target.backup"
     fi
-    
+
     if [ -f "$source" ]; then
         ln -sf "$source" "$target"
         print_success "Linked $1 -> $2"
@@ -217,14 +217,14 @@ backup_and_link ".golangci.yml" ".golangci.yml"
 if [ -d "$DOTFILES_DIR/ghostty" ]; then
     rm -rf "$HOME/.config/ghostty"
     ln -sf "$DOTFILES_DIR/ghostty" "$HOME/.config/ghostty"
-    
+
     # Ensure Ghostty config uses the correct Fish path
     FISH_PATH=$(which fish)
     if [ -f "$HOME/.config/ghostty/config" ] && [ -n "$FISH_PATH" ]; then
         # Update the Fish path in Ghostty config if needed
         sed -i '' "s|command = \"/opt/homebrew/bin/fish\"|command = \"$FISH_PATH\"|g" "$HOME/.config/ghostty/config"
     fi
-    
+
     print_success "Linked Ghostty configuration (Fish shell default)"
 fi
 
@@ -259,7 +259,7 @@ if command -v fish &> /dev/null; then
         nvm install lts
         nvm use lts
         set -U nvm_default_version lts
-        
+
         # Install global packages
         npm install -g pnpm typescript @types/node prettier eslint
     " 2>/dev/null || print_warning "Node.js setup encountered issues, please run 'nvm install lts' manually in Fish"
@@ -275,7 +275,7 @@ if command -v pyenv &> /dev/null; then
         pyenv install "$LATEST_PYTHON" || print_warning "Python installation failed, you can install it manually later"
     fi
     pyenv global "$LATEST_PYTHON" 2>/dev/null || true
-    
+
     # Install common packages
     pip3 install --upgrade pip poetry black isort flake8 mypy 2>/dev/null || print_warning "Some Python packages failed to install"
     print_success "Python environment configured"
@@ -290,24 +290,53 @@ if command -v go &> /dev/null; then
     print_success "Go environment configured with golangci-lint v2"
 fi
 
-# Configure Git with Gökhan's information
+# Configure Git with user-provided information
 print_step "⚙️ Configuring Git..."
-git config --global user.name "Gökhan Arkan"
-git config --global user.email "gokhanarkan@gmail.com"
-print_success "Git configured for Gökhan Arkan <gokhanarkan@gmail.com>"
+read -p "Enter your Git username: " GIT_USERNAME
+read -p "Enter your Git email: " GIT_EMAIL
+
+if [ -z "$GIT_USERNAME" ] || [ -z "$GIT_EMAIL" ]; then
+    print_error "Git username and email are required"
+fi
+
+git config --global user.name "$GIT_USERNAME"
+git config --global user.email "$GIT_EMAIL"
+print_success "Git configured for $GIT_USERNAME <$GIT_EMAIL>"
+
+# Configure GitHub username (optional)
+read -p "Enter your GitHub username (optional, press Enter to skip): " GITHUB_USERNAME
+if [ -n "$GITHUB_USERNAME" ]; then
+    git config --global github.user "$GITHUB_USERNAME"
+    print_success "GitHub user configured: $GITHUB_USERNAME"
+fi
+
+# Configure GitLab username (optional)
+read -p "Enter your GitLab username (optional, press Enter to skip): " GITLAB_USERNAME
+if [ -n "$GITLAB_USERNAME" ]; then
+    git config --global gitlab.user "$GITLAB_USERNAME"
+    print_success "GitLab user configured: $GITLAB_USERNAME"
+fi
 
 # Set up SSH key (optional)
 if [ ! -f "$HOME/.ssh/id_ed25519" ]; then
+    # Backup .ssh folder if it exists
+    if [ -d "$HOME/.ssh" ]; then
+        print_step "📦 Backing up .ssh folder..."
+        BACKUP_DIR="$HOME/.ssh.backup.$(date +%Y%m%d_%H%M%S)"
+        cp -r "$HOME/.ssh" "$BACKUP_DIR"
+        print_success ".ssh folder backed up to $BACKUP_DIR"
+    fi
+
     print_step "🔑 Setting up SSH key..."
     read -p "Generate SSH key for GitHub? (y/n): " -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
-        ssh-keygen -t ed25519 -C "gokhanarkan@gmail.com" -f "$HOME/.ssh/id_ed25519" -N ""
-        
+        ssh-keygen -t ed25519 -C "$GIT_EMAIL" -f "$HOME/.ssh/id_ed25519" -N ""
+
         # Start ssh-agent and add key
         eval "$(ssh-agent -s)"
         ssh-add "$HOME/.ssh/id_ed25519"
-        
+
         print_success "SSH key generated at ~/.ssh/id_ed25519.pub"
         print_warning "Don't forget to add your SSH key to GitHub:"
         print_warning "https://github.com/settings/keys"
@@ -346,15 +375,15 @@ fish -c "
     set -Ux EDITOR code
     set -Ux VISUAL code
     set -Ux BROWSER open
-    
+
     # Go paths
     set -Ux GOPATH \$HOME/go
     set -Ux GOBIN \$GOPATH/bin
-    
+
     # Add paths
     fish_add_path \$GOBIN
     fish_add_path \$HOME/.local/bin
-    
+
     # Docker settings
     set -Ux DOCKER_BUILDKIT 1
     set -Ux COMPOSE_DOCKER_CLI_BUILD 1
@@ -410,7 +439,7 @@ echo -e "${CYAN}🚀 Your blazing-fast development environment is ready!${NC}"
 echo
 echo -e "${YELLOW}What's been installed:${NC}"
 echo "  🐟 Fish shell as default with modern plugins"
-echo "  🚀 Starship prompt (Rust-powered)"  
+echo "  🚀 Starship prompt (Rust-powered)"
 echo "  🎣 Fisher plugin manager with essential plugins"
 echo "  📦 Complete development toolchain (Go, Node.js, Python)"
 echo "  🔧 Optimized configurations for all tools"

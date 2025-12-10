@@ -2,10 +2,7 @@
 # ~/.gitconfig
 # Essential aliases and settings for productivity
 # Author: Gökhan Arkan (@gokhanarkan)
-
-[user]
-    name = Gökhan Arkan
-    email = gokhanarkan@gmail.com
+# Note: [user] section is configured dynamically by install.sh
 
 [core]
     editor = code --wait
@@ -256,12 +253,14 @@
     insteadOf = https://github.com/
 
 # GitHub-specific settings
-[github]
-    user = gokhanarkan
+# Note: GitHub user is configured dynamically by install.sh
+# [github]
+#     user = your-github-username
 
 # GitLab-specific settings
-[gitlab]
-    user = gokhanarkan
+# Note: GitLab user is configured dynamically by install.sh
+# [gitlab]
+#     user = your-gitlab-username
 
 # Include work-specific config if it exists
 [includeIf "gitdir:~/work/"]
