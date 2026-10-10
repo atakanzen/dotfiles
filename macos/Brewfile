@@ -1,0 +1,23 @@
+# Brewfile - macOS-only formulae and applications
+# Author: Atakan Zengin (@atakanzen)
+# Usage: brew bundle --file macos/Brewfile (cross-platform formulae live in common/Brewfile)
+
+# Container tooling (on WSL, Docker Desktop's WSL integration provides these)
+brew "docker"
+brew "docker-compose"
+
+# Mac App Store CLI
+brew "mas"
+# mas "Xcode", id: 497799835            # Uncomment if you need Xcode
+
+# Applications
+cask "ghostty"                          # Primary terminal
+cask "visual-studio-code"
+cask "zed"                              # Fast, modern editor
+cask "google-chrome"
+cask "docker"                           # Docker Desktop
+cask "tableplus"                        # Universal database tool
+cask "claude"                           # Anthropic's Claude app
+
+# Fonts (Nerd Font with icons)
+cask "font-jetbrains-mono-nerd-font"

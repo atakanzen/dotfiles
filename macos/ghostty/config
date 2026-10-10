@@ -1,6 +1,6 @@
 # Ghostty Terminal Configuration
 # ~/.config/ghostty/config
-# Author: Gökhan Arkan (@gokhanarkan)
+# Author: Atakan Zengin (@atakanzen)
 
 # Font settings
 font-family = "JetBrains Mono Nerd Font"
@@ -35,7 +35,7 @@ copy-on-select = false
 # Shell integration
 shell-integration = "fish"
 # Use Fish shell directly instead of system default
-# Note: Install script will update this path automatically if needed
+# Apple Silicon Homebrew path
 command = "/opt/homebrew/bin/fish"
 
 # Performance

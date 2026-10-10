@@ -1,7 +1,7 @@
 # Starship Configuration
 # ~/.config/starship.toml
 # Fast, beautiful, cross-shell prompt
-# Author: Gökhan Arkan (@gokhanarkan)
+# Author: Atakan Zengin (@atakanzen)
 
 # Global settings
 format = """
@@ -301,11 +301,3 @@ when = "test -n \"$GIT_SERVER\""
 symbol = "🌐"
 style = "bold yellow"
 format = "[$symbol$output]($style)"
-
-[custom.gokhan]
-description = "Display author info"
-command = "echo 'Gökhan'"
-when = "test -f ~/.config/starship.toml"
-symbol = "👤"
-style = "bold cyan"
-format = "[$symbol $output]($style)"

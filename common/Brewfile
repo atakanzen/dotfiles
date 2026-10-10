@@ -1,0 +1,96 @@
+# Brewfile - Cross-platform formulae (macOS + WSL Ubuntu via Homebrew on Linux)
+# Author: Atakan Zengin (@atakanzen)
+# Usage: brew bundle --file common/Brewfile
+# Note: no casks here - casks are macOS-only and live in macos/Brewfile
+
+# Core shell and terminal
+brew "fish"              # Our main shell
+brew "starship"          # Fast, beautiful prompt
+
+# Essential command-line tools
+brew "git"
+brew "wget"
+brew "curl"
+brew "tree"
+brew "htop"
+brew "btop"             # Modern htop replacement
+brew "jq"               # JSON processor
+brew "yq"               # YAML processor
+
+# Modern replacements for classic tools
+brew "eza"              # Better ls (exa replacement)
+brew "bat"              # Better cat with syntax highlighting
+brew "fd"               # Better find
+brew "ripgrep"          # Better grep
+brew "fzf"              # Fuzzy finder
+brew "zoxide"           # Smart cd replacement
+brew "tldr"             # Simplified man pages
+
+# Development tools
+brew "nvim"             # Neovim editor
+brew "gh"               # GitHub CLI
+brew "glab"             # GitLab CLI
+brew "diff-so-fancy"    # Better git diffs
+brew "git-delta"        # Even better git diffs
+
+# Programming languages and version managers
+brew "go"
+brew "python@3.11"
+brew "python@3.12"
+brew "pyenv"
+brew "fnm"              # Fast Node Manager (better than nvm)
+brew "ruby"
+brew "rbenv"
+
+# Node.js ecosystem
+brew "node"             # Backup Node.js installation
+brew "pnpm"             # Fast, disk space efficient package manager
+
+# Database tools
+brew "postgresql@15"
+brew "redis"
+brew "sqlite"
+
+# Container orchestration
+brew "kubernetes-cli"
+brew "helm"
+brew "k9s"              # Kubernetes TUI
+brew "kubectx"          # Switch Kubernetes contexts
+
+# Infrastructure as Code
+brew "terraform"
+brew "ansible"
+
+# Cloud tools
+brew "awscli"
+brew "azure-cli"
+
+# API and network tools
+brew "httpie"           # Better curl for APIs
+brew "grpcurl"          # gRPC curl
+brew "nmap"
+brew "telnet"
+
+# Security tools
+brew "gnupg"
+brew "openssh"
+brew "openssl"
+
+# System monitoring and info
+brew "neofetch"
+brew "bandwhich"        # Network monitoring
+brew "dust"             # Better du
+brew "procs"            # Better ps
+
+# Development utilities
+brew "direnv"           # Environment variable management
+brew "make"
+brew "cmake"
+brew "pkg-config"
+brew "autoconf"
+brew "automake"
+brew "libtool"
+brew "watch"            # Execute commands periodically
+
+# Fish-specific tools
+brew "fisher"           # Fish plugin manager (if not auto-installed)

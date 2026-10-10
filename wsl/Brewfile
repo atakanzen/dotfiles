@@ -1,0 +1,7 @@
+# Brewfile - WSL Ubuntu (Homebrew on Linux) extras
+# Author: Atakan Zengin (@atakanzen)
+# Usage: brew bundle --file wsl/Brewfile (cross-platform formulae live in common/Brewfile)
+# Note: casks are macOS-only - never add them here.
+# Docker is provided by Docker Desktop's WSL integration on the Windows side.
+
+brew "lsof"             # Used by the 'ports' abbreviation

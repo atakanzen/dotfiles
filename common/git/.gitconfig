@@ -1,14 +1,14 @@
 # Git Configuration
 # ~/.gitconfig
 # Essential aliases and settings for productivity
-# Author: Gökhan Arkan (@gokhanarkan)
+# Author: Atakan Zengin (@atakanzen)
 
 [user]
-    name = Gökhan Arkan
-    email = gokhanarkan@gmail.com
+    name = Atakan Zengin
+    email = atakanzzengin@gmail.com
 
 [core]
-    editor = code --wait
+    editor = nvim
     autocrlf = input
     trustctime = false
     preloadindex = true
@@ -257,11 +257,11 @@
 
 # GitHub-specific settings
 [github]
-    user = gokhanarkan
+    user = atakanzen
 
 # GitLab-specific settings
 [gitlab]
-    user = gokhanarkan
+    user = atakanzen
 
 # Include work-specific config if it exists
 [includeIf "gitdir:~/work/"]
@@ -271,8 +271,8 @@
 [includeIf "gitdir:~/personal/"]
     path = ~/.gitconfig-personal
 
-# Gökhan's specific project paths
-[includeIf "gitdir:~/code/"]
+# Personal development directory
+[includeIf "gitdir:~/developer/"]
     path = ~/.gitconfig-personal
 
 # Maintenance settings

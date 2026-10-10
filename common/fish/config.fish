@@ -1,7 +1,8 @@
 # Fish Shell Configuration
 # ~/.config/fish/config.fish
 # Modern, blazing-fast shell setup optimized for development
-# Author: Gökhan Arkan (@gokhanarkan)
+# Author: Atakan Zengin (@atakanzen)
+# OS-specific settings live in ~/.config/fish/conf.d/os.fish (macos/ or wsl/ in the repo)
 
 # Disable fish greeting
 set -g fish_greeting
@@ -11,7 +12,6 @@ set -g fish_greeting
 # Core settings
 set -gx EDITOR code
 set -gx VISUAL code
-set -gx BROWSER open
 set -gx TERM xterm-256color
 
 # Language settings
@@ -21,7 +21,6 @@ set -gx LC_ALL en_US.UTF-8
 # ===== PATH CONFIGURATION =====
 
 # Essential paths
-fish_add_path /opt/homebrew/bin
 fish_add_path /usr/local/bin
 fish_add_path $HOME/.local/bin
 
@@ -32,10 +31,7 @@ fish_add_path $GOBIN
 
 # ===== DEVELOPMENT ENVIRONMENT SETUP =====
 
-# Homebrew
-if test -f /opt/homebrew/bin/brew
-    eval (/opt/homebrew/bin/brew shellenv)
-end
+# Homebrew is initialised in conf.d/os.fish (path differs per OS)
 
 # Node.js (nvm.fish plugin handles this automatically)
 # Python (pyenv)
@@ -66,6 +62,10 @@ abbr -a tree 'eza --tree --icons'
 abbr -a cat 'bat'
 abbr -a grep 'rg'
 abbr -a find 'fd'
+
+# Editor (Neovim as the default vim)
+abbr -a vim 'nvim'
+abbr -a vi 'nvim'
 
 # Directory navigation
 abbr -a .. 'cd ..'
@@ -174,9 +174,7 @@ abbr -a kexec 'kubectl exec -it'
 
 # System utilities
 abbr -a myip 'curl -s https://httpbin.org/ip | jq -r .origin'
-abbr -a localip 'ipconfig getifaddr en0'
 abbr -a ports 'lsof -i -P -n | grep LISTEN'
-abbr -a flushdns 'sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
 abbr -a cleanup 'brew cleanup && docker system prune -af'
 
 # Quick config edits
@@ -279,6 +277,11 @@ function update-all
     echo "💎 Updating Ruby gems..."
     if command -q gem
         gem update
+    end
+
+    # OS-specific updates (e.g. apt on WSL), defined in conf.d/os.fish
+    if functions -q __os_update
+        __os_update
     end
 
     echo "🎣 Updating Fish plugins..."

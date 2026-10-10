@@ -1,7 +1,7 @@
 # Fish Plugins List
 # ~/.config/fish/fish_plugins
 # Managed by Fisher - edit this file and run 'fisher update' to sync
-# Author: Gökhan Arkan (@gokhanarkan)
+# Author: Atakan Zengin (@atakanzen)
 
 # ===== ESSENTIAL PRODUCTIVITY PLUGINS =====
 jethrokuan/z                           # Smart directory jumping (frecency-based)
@@ -18,7 +18,7 @@ wfxr/forgit                           # Interactive git operations with fzf
 gazorby/fish-abbreviation-tips         # Show abbreviation expansions as you type
 laughedelic/pisces                     # Smart bracket completion and auto-pairing
 decors/fish-colored-man                # Colorized man pages for better readability
-<!-- gazorby/fish-exa                       # Better ls integration with exa -->
+# gazorby/fish-exa                     # Better ls integration with exa (superseded by eza abbreviations)
 
 # ===== SYSTEM INTEGRATION =====
 jorgebucaran/replay.fish               # Run bash commands and replay changes in Fish

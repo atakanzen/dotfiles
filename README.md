@@ -1,14 +1,14 @@
-# 🐟 Gökhan's Fish-First Dotfiles
+# 🐟 Atakan's Fish-First Dotfiles
 
-> A blazing-fast macOS development environment built around Fish shell, optimized for Go, Python, JavaScript/TypeScript, and modern development workflows.
+> A blazing-fast development environment for **macOS** and **WSL Ubuntu** built around Fish shell, optimized for Go, Python, JavaScript/TypeScript, and modern development workflows.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Fish Shell](https://img.shields.io/badge/Fish-Shell-blue.svg)](https://fishshell.com/)
 [![Starship](https://img.shields.io/badge/Prompt-Starship-purple.svg)](https://starship.rs/)
 [![Go](https://img.shields.io/badge/Go-Ready-00ADD8.svg)](https://golang.org/)
 
-**Author:** Gökhan Arkan ([@gokhanarkan](https://github.com/gokhanarkan))
-**Email:** gokhanarkan@gmail.com
+**Author:** Atakan Zengin ([@atakanzen](https://github.com/atakanzen))
+**Email:** atakanzzengin@gmail.com
 
 ## ⚡ Why Fish?
 
@@ -18,8 +18,17 @@ This setup gives you all the power of modern shell features without the complexi
 
 ## 🚀 Quick Install
 
+The same one-liner works on **macOS** and **WSL Ubuntu**. It detects the platform and runs `macos/install.sh` or `wsl/install.sh`:
+
 ```bash
-curl -fsSL https://raw.githubusercontent.com/gokhanarkan/dotfiles/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/atakanzen/dotfiles/main/install.sh | bash
+```
+
+Or from a local checkout:
+
+```bash
+git clone git@github.com:atakanzen/dotfiles.git ~/.dotfiles
+~/.dotfiles/install.sh
 ```
 
 **That's it!** The script will automatically:
@@ -38,7 +47,8 @@ curl -fsSL https://raw.githubusercontent.com/gokhanarkan/dotfiles/main/install.s
 - **Fish Shell** - Fast, user-friendly, intelligent shell
 - **Starship Prompt** - Rust-powered, beautiful, cross-shell prompt
 - **Fisher** - Minimal, fast plugin manager
-- **Ghostty Terminal** - Pre-configured with Fish as default shell
+- **Ghostty Terminal** (macOS) - Pre-configured with Fish as default shell
+- **Windows Terminal profile** (WSL) - Fish, JetBrainsMono Nerd Font, Catppuccin Mocha
 - **Essential plugins** - Carefully curated for productivity
 
 ### 🛠 Development Stack
@@ -52,7 +62,7 @@ curl -fsSL https://raw.githubusercontent.com/gokhanarkan/dotfiles/main/install.s
 
 ### 📦 Package Management
 
-- **Homebrew** - System packages and applications
+- **Homebrew** - System packages on both platforms (Homebrew on Linux for WSL; casks/apps on macOS only)
 - **pnpm** - Fast, efficient Node.js package manager (preferred over npm)
 - **Fisher** - Lightweight Fish plugin manager
 
@@ -70,26 +80,46 @@ curl -fsSL https://raw.githubusercontent.com/gokhanarkan/dotfiles/main/install.s
 
 ```
 dotfiles/
-├── install.sh              # Fish-first installation script
-├── Brewfile                # Curated packages for Fish development
-├── README.md               # This file
-├── LICENSE                 # MIT License
-├── .golangci.yml           # golangci-lint v2 configuration
-├── fish/
-│   ├── config.fish         # Main Fish configuration
-│   └── fish_plugins        # Plugin list for Fisher
-├── starship/
-│   └── starship.toml       # Beautiful, fast prompt config
-├── git/
-│   ├── .gitconfig          # Git with productivity aliases
-│   └── .gitignore_global   # Global gitignore patterns
-├── ghostty/
-│   └── config              # Terminal settings (Fish shell default)
-├── node/
-│   └── .npmrc              # NPM configuration (pnpm preferred)
+├── install.sh              # Entry point: detects macOS / WSL and dispatches
+├── lib/
+│   └── common.sh           # Shared installer steps (links, Fisher, toolchains, shell)
+├── common/                 # Configs shared by every platform
+│   ├── Brewfile            # Cross-platform formulae (no casks)
+│   ├── fish/
+│   │   ├── config.fish     # Main Fish configuration
+│   │   └── fish_plugins    # Plugin list for Fisher
+│   ├── starship/starship.toml
+│   ├── git/
+│   │   ├── .gitconfig      # Git with productivity aliases
+│   │   └── .gitignore_global
+│   ├── node/.npmrc         # NPM configuration (pnpm preferred)
+│   └── go/.golangci.yml    # golangci-lint v2 configuration
+├── macos/
+│   ├── install.sh          # Xcode CLT, Homebrew, apps, Ghostty
+│   ├── Brewfile            # macOS-only formulae + casks
+│   ├── fish/os.fish        # -> ~/.config/fish/conf.d/os.fish
+│   └── ghostty/config      # Terminal settings (Fish shell default)
+├── wsl/
+│   ├── install.sh          # apt prerequisites, Homebrew on Linux, Windows Terminal
+│   ├── Brewfile            # Linux-only extras (never casks)
+│   ├── fish/os.fish        # -> ~/.config/fish/conf.d/os.fish
+│   ├── windows-terminal/profile.json  # Windows Terminal fragment
+│   └── wsl.conf            # Optional /etc/wsl.conf (systemd, interop)
 └── docs/
     └── FISH_GUIDE.md       # Fish shell productivity guide
 ```
+
+Platform-specific shell settings (Homebrew path, `BROWSER`, clipboard, networking helpers) live in `os.fish`, which Fish loads from `conf.d/` before `config.fish`.
+
+## 🪟 WSL Ubuntu Notes
+
+- **Homebrew on Linux** is installed to `/home/linuxbrew/.linuxbrew`. apt is only used for Homebrew's prerequisites, `wslu` and Python build dependencies.
+- **Docker** isn't installed inside WSL. Enable *Docker Desktop → Settings → Resources → WSL integration* for your distro.
+- **Fonts** must be installed on the Windows side: install [JetBrainsMono Nerd Font](https://www.nerdfonts.com/font-downloads) for prompt icons.
+- **Windows Terminal**: the installer copies `wsl/windows-terminal/profile.json` as a [settings fragment](https://learn.microsoft.com/windows/terminal/json-fragment-extensions) to `%LOCALAPPDATA%\Microsoft\Windows Terminal\Fragments\dotfiles\`. It adds a *Fish (<distro>)* profile; set it as the default profile in Windows Terminal settings. If the copy fails, place the file there manually.
+- **Clipboard / open**: `pbcopy`, `pbpaste` and `open` work via `clip.exe`, PowerShell and `wslview`.
+- **`$WINHOME`** points at your Windows user directory (`winhome` abbreviation jumps there).
+- **`/etc/wsl.conf`**: the installer offers to enable systemd; run `wsl --shutdown` from Windows afterwards.
 
 ## 🎯 Essential Abbreviations
 
@@ -168,7 +198,7 @@ Essential plugins automatically installed via Fisher:
 - **[wfxr/forgit](https://github.com/wfxr/forgit)** - Interactive git operations
 - **[jorgebucaran/autopair.fish](https://github.com/jorgebucaran/autopair.fish)** - Smart bracket completion
 
-[See complete plugin list](fish/fish_plugins)
+[See complete plugin list](common/fish/fish_plugins)
 
 ## ⚙️ Post-Installation Setup
 
@@ -220,7 +250,7 @@ fish_config    # Opens beautiful web UI in browser
 
 ## 🔍 Go Development with golangci-lint v2
 
-This setup includes a comprehensive [.golangci.yml](.golangci.yml) configuration for Go projects:
+This setup includes a comprehensive [.golangci.yml](common/go/.golangci.yml) configuration for Go projects:
 
 ### Key Features
 
@@ -251,7 +281,7 @@ Create these files for your customizations:
 
 ```fish
 # ~/.config/fish/local.fish - Personal settings
-abbr -a myproject 'cd ~/code/myproject'
+abbr -a myproject 'cd ~/developer/myproject'
 set -gx CUSTOM_VAR "my value"
 
 # ~/.config/fish/work.fish - Work-specific settings
@@ -285,7 +315,7 @@ fisher list                         # List installed plugins
 ### Update Everything
 
 ```fish
-update-all    # Updates Homebrew, npm, pip, gems, Fish plugins
+update-all    # Updates Homebrew, npm, pip, gems, Fish plugins (+ apt on WSL)
 ```
 
 ### Individual Updates
@@ -356,7 +386,7 @@ abbr -e name              # Erase abbreviation
 
 ```fish
 # Variables (no $ needed in assignments)
-set name "Gökhan"         # Not: name="Gökhan"
+set name "Atakan"         # Not: name="Atakan"
 echo $name                # Still use $ for expansion
 
 # Arrays
@@ -412,7 +442,7 @@ brew install eza
 grep "abbr.*ls\|abbr.*ll" ~/.config/fish/config.fish
 
 # If you see exa instead of eza, re-run the install script:
-curl -fsSL https://raw.githubusercontent.com/gokhanarkan/dotfiles/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/atakanzen/dotfiles/main/install.sh | bash
 ```
 
 #### Slow performance
@@ -459,17 +489,18 @@ Found an improvement or bug? Contributions are welcome!
 
 1. **Fork** this repository
 2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Test** on a fresh macOS installation
+3. **Test** on a fresh macOS installation and/or WSL Ubuntu distro
 4. **Commit** your changes (`git commit -m 'feat: add amazing feature'`)
 5. **Push** to the branch (`git push origin feature/amazing-feature`)
 6. **Open** a Pull Request
 
 ### Contribution Guidelines
 
-- Test all changes on a clean macOS installation
+- Test all changes on a clean macOS installation and a fresh WSL Ubuntu distro (`wsl --install -d Ubuntu-24.04 --name dotfiles-test`)
 - Update documentation for any new features
 - Follow [Conventional Commits](https://www.conventionalcommits.org/)
 - Ensure scripts are compatible with both Intel and Apple Silicon Macs
+- Keep casks out of `common/Brewfile` and `wsl/Brewfile`
 
 ## 📝 License
 
@@ -481,7 +512,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **[Jorge Bucaran](https://github.com/jorgebucaran/fisher)** - Fisher plugin manager and Fish ecosystem
 - **[Starship Team](https://github.com/starship/starship)** - Beautiful, fast prompt
 - **[Ghostty](https://mitchellh.com/ghostty)** - Modern terminal emulator
-- **[Homebrew](https://brew.sh/)** - Package management for macOS
+- **[Homebrew](https://brew.sh/)** - Package management for macOS and Linux
+- **[Gökhan Arkan](https://github.com/gokhanarkan/dotfiles)** - Original dotfiles this setup is forked from
 - **[golangci-lint](https://golangci-lint.run/)** - Fast Go linters runner
 - **Fish community** - For incredible plugins and continuous innovation
 
@@ -491,6 +523,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 _"Fish is a smart and user-friendly command line shell that works great out of the box."_
 
-**Questions?** [Open an issue](https://github.com/gokhanarkan/dotfiles/issues) • **Want to contribute?** [See contributing guidelines](#-contributing)
+**Questions?** [Open an issue](https://github.com/atakanzen/dotfiles/issues) • **Want to contribute?** [See contributing guidelines](#-contributing)
 
-**Contact:** Gökhan Arkan - [@gokhanarkan](https://github.com/gokhanarkan) - gokhanarkan@gmail.com
+**Contact:** Atakan Zengin - [@atakanzen](https://github.com/atakanzen) - atakanzzengin@gmail.com
