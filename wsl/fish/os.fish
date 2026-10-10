@@ -7,10 +7,19 @@ if test -x /home/linuxbrew/.linuxbrew/bin/brew
     /home/linuxbrew/.linuxbrew/bin/brew shellenv | source
 end
 
-# Open files/URLs with the Windows default app (wslview comes from the wslu apt package)
-if command -q wslview
-    set -gx BROWSER wslview
-    abbr -a open 'wslview'
+# Open files/URLs with the Windows default app
+set -gx BROWSER explorer.exe
+
+function open --description 'Open files, directories or URLs with the Windows default app'
+    for target in $argv
+        if string match -qr '^[a-zA-Z][a-zA-Z0-9+.-]*://' -- $target
+            explorer.exe $target
+        else
+            explorer.exe (wslpath -w $target)
+        end
+    end
+    # explorer.exe returns a non-zero status even on success
+    return 0
 end
 
 # Windows home directory, e.g. /mnt/c/Users/<you>

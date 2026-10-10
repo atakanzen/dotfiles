@@ -113,11 +113,11 @@ Platform-specific shell settings (Homebrew path, `BROWSER`, clipboard, networkin
 
 ## 🪟 WSL Ubuntu Notes
 
-- **Homebrew on Linux** is installed to `/home/linuxbrew/.linuxbrew`. apt is only used for Homebrew's prerequisites, `wslu` and Python build dependencies.
+- **Homebrew on Linux** is installed to `/home/linuxbrew/.linuxbrew`. apt is only used for Homebrew's prerequisites and Python build dependencies.
 - **Docker** isn't installed inside WSL. Enable *Docker Desktop → Settings → Resources → WSL integration* for your distro.
 - **Fonts** must be installed on the Windows side: install [JetBrainsMono Nerd Font](https://www.nerdfonts.com/font-downloads) for prompt icons.
 - **Windows Terminal**: the installer copies `wsl/windows-terminal/profile.json` as a [settings fragment](https://learn.microsoft.com/windows/terminal/json-fragment-extensions) to `%LOCALAPPDATA%\Microsoft\Windows Terminal\Fragments\dotfiles\`. It adds a *Fish (<distro>)* profile; set it as the default profile in Windows Terminal settings. If the copy fails, place the file there manually.
-- **Clipboard / open**: `pbcopy`, `pbpaste` and `open` work via `clip.exe`, PowerShell and `wslview`.
+- **Clipboard / open**: `pbcopy`, `pbpaste` and `open` work via `clip.exe`, PowerShell and `explorer.exe`.
 - **`$WINHOME`** points at your Windows user directory (`winhome` abbreviation jumps there).
 - **`/etc/wsl.conf`**: the installer offers to enable systemd; run `wsl --shutdown` from Windows afterwards.
 

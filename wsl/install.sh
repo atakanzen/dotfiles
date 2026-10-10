@@ -23,14 +23,13 @@ print_banner "WSL Ubuntu"
 # Cache sudo credentials up front (Homebrew's non-interactive install needs them)
 sudo -v < /dev/tty
 
-# Homebrew prerequisites, WSL glue and Python build dependencies (for pyenv)
+# Homebrew prerequisites and Python build dependencies (for pyenv)
 print_step "🐧 Installing apt prerequisites..."
 sudo apt-get update
 sudo apt-get install -y \
     build-essential procps curl file git \
-    wslu \
     libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \
-    libffi-dev liblzma-dev libncursesw5-dev tk-dev xz-utils
+    libffi-dev liblzma-dev libncurses-dev tk-dev xz-utils
 
 # Install Homebrew if not installed
 if [ ! -x "$BREW_PREFIX/bin/brew" ]; then
@@ -62,9 +61,10 @@ if ! cmp -s "$DOTFILES_DIR/wsl/wsl.conf" /etc/wsl.conf; then
 fi
 
 # Windows Terminal profile (copied, since Windows can't follow WSL symlinks)
+WIN_LOCALAPPDATA_RAW="$(cmd.exe /c 'echo %LOCALAPPDATA%' 2>/dev/null | tr -d '\r' || true)"
 WIN_LOCALAPPDATA=""
-if command -v wslvar &> /dev/null; then
-    WIN_LOCALAPPDATA="$(wslpath "$(wslvar LOCALAPPDATA 2>/dev/null)" 2>/dev/null || true)"
+if [ -n "$WIN_LOCALAPPDATA_RAW" ]; then
+    WIN_LOCALAPPDATA="$(wslpath "$WIN_LOCALAPPDATA_RAW" 2>/dev/null || true)"
 fi
 if [ -n "$WIN_LOCALAPPDATA" ] && [ -d "$WIN_LOCALAPPDATA" ]; then
     FRAGMENT_DIR="$WIN_LOCALAPPDATA/Microsoft/Windows Terminal/Fragments/dotfiles"
