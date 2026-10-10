@@ -1,41 +1,13 @@
-# Fish Plugins List
-# ~/.config/fish/fish_plugins
-# Managed by Fisher - edit this file and run 'fisher update' to sync
-# Author: Atakan Zengin (@atakanzen)
-
-# ===== ESSENTIAL PRODUCTIVITY PLUGINS =====
-jethrokuan/z                           # Smart directory jumping (frecency-based)
-PatrickF1/fzf.fish                     # Fuzzy finder integration with beautiful UI
-franciscolourenco/done                 # Desktop notifications when long commands finish
-jorgebucaran/autopair.fish             # Auto-close brackets, quotes, and parentheses
-
-# ===== DEVELOPMENT WORKFLOW =====
-jorgebucaran/nvm.fish                  # Fast Node.js version manager for Fish
-joseluisq/gitnow                       # Git workflow shortcuts and utilities
-wfxr/forgit                           # Interactive git operations with fzf
-
-# ===== ENHANCED TERMINAL EXPERIENCE =====
-gazorby/fish-abbreviation-tips         # Show abbreviation expansions as you type
-laughedelic/pisces                     # Smart bracket completion and auto-pairing
-decors/fish-colored-man                # Colorized man pages for better readability
-# gazorby/fish-exa                     # Better ls integration with exa (superseded by eza abbreviations)
-
-# ===== SYSTEM INTEGRATION =====
-jorgebucaran/replay.fish               # Run bash commands and replay changes in Fish
-oh-my-fish/plugin-brew                 # Enhanced Homebrew completions and shortcuts
-evanlucas/fish-kubectl-completions     # Kubernetes completions for kubectl
-
-# ===== OPTIONAL PLUGINS (uncomment to enable) =====
-# Alternative prompts (choose one - Starship is already configured)
-# IlanCosman/tide@v5                   # Beautiful, fast prompt with Git integration
-# jorgebucaran/hydro                   # Minimal, lag-free prompt
-# pure-fish/pure                       # Minimal, elegant prompt inspired by Pure
-
-# Utility plugins
-# meaningful-ooo/sponge               # Clean command history from typos automatically
-# jorgebucaran/spark.fish             # Generate sparklines in your terminal
-# nickeb96/puffer-fish                # Text expansions for Fish shell
-
-# Development-specific plugins
-# h-matsuo/fish-color-scheme-switcher  # Switch terminal color schemes
-# patrickf1/colored_man_pages.fish    # Alternative colored man pages implementation
+jethrokuan/z
+PatrickF1/fzf.fish
+franciscolourenco/done
+jorgebucaran/autopair.fish
+jorgebucaran/nvm.fish
+joseluisq/gitnow
+wfxr/forgit
+gazorby/fish-abbreviation-tips
+laughedelic/pisces
+decors/fish-colored-man
+jorgebucaran/replay.fish
+oh-my-fish/plugin-brew
+evanlucas/fish-kubectl-completions

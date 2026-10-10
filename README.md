@@ -456,9 +456,10 @@ fish --profile fish_profile.log -c exit    # Detailed profiling
 
 ```fish
 fisher list               # Check installed plugins
-fisher update             # Update all plugins
-rm ~/.config/fish/fish_plugins && fisher update    # Reset plugins
+fisher update             # Update all plugins / sync with fish_plugins
 ```
+
+> `fish_plugins` must contain one plugin per line with **no comments**. Fisher ignores any line containing whitespace, and it deletes the file when no plugins are left, so never use inline `# comments` there.
 
 #### Path issues
 

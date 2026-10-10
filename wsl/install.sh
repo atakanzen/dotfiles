@@ -29,7 +29,13 @@ sudo apt-get update
 sudo apt-get install -y \
     build-essential procps curl file git \
     libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \
-    libffi-dev liblzma-dev libncurses-dev tk-dev xz-utils
+    libffi-dev liblzma-dev libncurses-dev tk-dev xz-utils locales
+
+# config.fish sets LANG/LC_ALL to en_US.UTF-8, which minimal WSL images don't ship
+if ! locale -a 2>/dev/null | grep -qi '^en_US\.utf-\?8$'; then
+    print_step "🌐 Generating en_US.UTF-8 locale..."
+    sudo locale-gen en_US.UTF-8
+fi
 
 # Install Homebrew if not installed
 if [ ! -x "$BREW_PREFIX/bin/brew" ]; then
