@@ -57,41 +57,5 @@ brew "helm"
 brew "k9s"              # Kubernetes TUI
 brew "kubectx"          # Switch Kubernetes contexts
 
-# Infrastructure as Code
-tap "hashicorp/tap"
-brew "hashicorp/tap/terraform"  # Removed from homebrew-core (BUSL license)
-brew "ansible"
-
-# Cloud tools
-brew "awscli"
-brew "azure-cli"
-
-# API and network tools
-brew "httpie"           # Better curl for APIs
-brew "grpcurl"          # gRPC curl
-brew "nmap"
-brew "telnet"
-
-# Security tools
-brew "gnupg"
-brew "openssh"
-brew "openssl"
-
-# System monitoring and info
-brew "fastfetch"        # System info (neofetch successor)
-brew "bandwhich"        # Network monitoring
-brew "dust"             # Better du
-brew "procs"            # Better ps
-
-# Development utilities
-brew "direnv"           # Environment variable management
-brew "make"
-brew "cmake"
-brew "pkg-config"
-brew "autoconf"
-brew "automake"
-brew "libtool"
-brew "watch"            # Execute commands periodically
-
 # Fish-specific tools
 brew "fisher"           # Fish plugin manager (if not auto-installed)
