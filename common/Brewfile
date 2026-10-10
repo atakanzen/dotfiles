@@ -58,7 +58,8 @@ brew "k9s"              # Kubernetes TUI
 brew "kubectx"          # Switch Kubernetes contexts
 
 # Infrastructure as Code
-brew "terraform"
+tap "hashicorp/tap"
+brew "hashicorp/tap/terraform"  # Removed from homebrew-core (BUSL license)
 brew "ansible"
 
 # Cloud tools
@@ -77,7 +78,7 @@ brew "openssh"
 brew "openssl"
 
 # System monitoring and info
-brew "neofetch"
+brew "fastfetch"        # System info (neofetch successor)
 brew "bandwhich"        # Network monitoring
 brew "dust"             # Better du
 brew "procs"            # Better ps
